@@ -1,5 +1,7 @@
 # Importing Dependencies
 from datetime import datetime
+import csv
+import os
 
 # Blueprints
 categories = {
@@ -24,8 +26,19 @@ expense_template = {
 
 id = 1
 
+# Initialize CSV
+def initialize_csv():
+    if not os.path.exists('transactions.csv'):
+        with open('transactions.csv', mode='w') as csv_file:
+            fieldnames = expense_template.keys()
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
+
 # New Transaction
 def transaction():
+    global id
+    initialize_csv()
+
     new = dict.fromkeys(expense_template.keys())
 
     new['id'] = id
@@ -40,8 +53,8 @@ def transaction():
     amt = input("Amount: ")
     new['amount'] = float(amt)
 
-    type = input("Is the transaction an income or expense?: ")
-    new['type'] = type
+    trns_type = input("Is the transaction an income or expense?: ")
+    new['type'] = trns_type
 
     category = input("Category: ")
     new['category'] = category
@@ -52,8 +65,12 @@ def transaction():
     payment_method = input("Payment method: ")
     new['payment_method'] = payment_method
 
+    with open('transactions.csv', mode='a', newline='') as csv_file:
+        fieldnames = expense_template.keys()
+        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer.writerow(new)
+
     return new
-    return id
 
 
 def main():
