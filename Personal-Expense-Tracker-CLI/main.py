@@ -2,6 +2,7 @@
 from datetime import datetime
 import csv
 import os
+from collections import deque
 
 # Blueprints
 categories = {
@@ -84,12 +85,26 @@ def transaction():
 
     return new
 
+# View Transactions
+def view_transation(last):
+    with open('transactions.csv', mode='r') as csv_file:
+        last_n_rows = deque(csv.reader(csv_file), last)
 
+        for row in last_n_rows:
+            print(row)
+
+
+# Main Function
 def main():
     run = input("Do you want to run the transaction? (y/n): ")
 
     if run == 'y':
         print(transaction())
+    else:
+        views = input("Do you want to view the transactions? (y/n): ")
+        if views == 'y':
+            last = int(input("How many transactions do you want to view?: "))
+            view_transation(last)
 
 if __name__ == "__main__":
     main()
