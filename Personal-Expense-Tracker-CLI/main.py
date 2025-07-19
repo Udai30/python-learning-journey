@@ -34,6 +34,18 @@ def initialize_csv():
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             writer.writeheader()
 
+# Next Id
+def next_id():
+    global id
+    last_row = None
+    with open('transactions.csv', mode='r') as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            last_row = row
+        if last_row:
+            id = int(last_row['id']) + 1
+    return id
+
 # New Transaction
 def transaction():
     global id
@@ -41,8 +53,8 @@ def transaction():
 
     new = dict.fromkeys(expense_template.keys())
 
-    new['id'] = id
-    id += 1
+    new['id'] = next_id()
+
 
     date = datetime.today().strftime('%d/%m/%Y')
     new['date'] = date

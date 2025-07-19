@@ -1,2 +1,4 @@
 id,amount,date,time,type,category,description,payment_method
-,,,,,,,
+1,100000.0,19/07/2025,09:46:02,income,income,salary,Bank Transfer
+2,5000.0,19/07/2025,10:04:39,expense,food,lunch,cash
+3,2000.0,19/07/2025,10:05:08,expense,transport,petrol,cash
